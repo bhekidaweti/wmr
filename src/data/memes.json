@@ -1,0 +1,31 @@
+[
+
+    {
+      "id": 4,
+      "title": "Boxer",
+      "image": "./boxer.jpg",
+      "description": "An image of a boxer who was brutally boxed but still won the match, symbolizing patience.",
+      "categories": ["Motivation", "Success", "Humor"]
+    },
+    {
+      "id": 5,
+      "title": "Bill Gate speech",
+      "image": "./bill.jpg",
+      "description": "A speech by Bill Gates where he said he prefers lazy people  because of their creativity.",
+      "categories": ["Motivation", "Success", "Humor"]
+    },
+    {
+      "id": 6,
+      "title": "Puppy Protecting Kitten",
+      "image": "./puppy.jpg",
+      "description": "An image of a puppy safe-guarding a kitten.",
+      "categories": ["Motivation", "Success", "Humor"]
+    }, 
+    {
+      "id":7,
+      "title": "John Cena wearing woman costume",
+      "image": "./john.jpg",
+      "description": "John Cena image participating in cross gender challenge.",
+      "categories": ["Arts", "Celebrits", "Humor"]
+    }
+  ]

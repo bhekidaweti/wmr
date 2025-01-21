@@ -1,0 +1,21 @@
+    {
+      "id": 1,
+      "title": "Distracted Boyfriend",
+      "image": "https://i.imgur.com/YhtrUdb.jpg",
+      "description": "A popular meme template where a man turns away from his girlfriend to look at another woman.",
+      "categories": ["Relationships", "Humor", "Pop Culture"]
+    },
+    {
+      "id": 2,
+      "title": "Grumpy Cat",
+      "image": "https://i.imgur.com/qn9UQ8f.jpg",
+      "description": "The internet's favorite cat with a perpetual grumpy expression.",
+      "categories": ["Animals", "Humor", "Icons"]
+    },
+    {
+      "id": 3,
+      "title": "Success Kid",
+      "image": "https://i.imgur.com/DGmOzYN.jpg",
+      "description": "A toddler clenching his fist in celebration, symbolizing success.",
+      "categories": ["Motivation", "Success", "Humor"]
+    },
