@@ -1,5 +1,5 @@
 const express = require('express');
-const { Pool } = require('pg');
+//const { Pool } = require('pg'); Local server
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require("multer");
@@ -8,21 +8,34 @@ const fs = require("fs");
 const scrapeMemes = require("./scraper")
 const PORT = 5000;
 
-
-require('dotenv').config({ path: '../.env' });
+require("dotenv").config();
+//Local server
+//require('dotenv').config({ path: '../.env' });
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const pool = new Pool({
+import postgres from 'postgres';
+
+const sql = postgres({
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  ssl: 'require',
+})
+
+//Local server
+/*
+const pool = new sql({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
-
+*/
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -45,7 +58,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //Scrape meme Table
 app.get("/api/scraped-memes", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM scraped_memes ORDER BY created_at DESC");
+    const result = await sql.query("SELECT * FROM scraped_memes ORDER BY created_at DESC");
     res.json(result.rows);
   } catch (error) {
     console.error("❌ Failed to fetch memes:", error);
@@ -105,7 +118,7 @@ app.post('/api/memes', upload.single("image"), async (req, res) => {
       RETURNING *;
     `;
     const values = [title, description, categories, `/uploads/${file.originalname}`];
-    const result = await pool.query(query, values);
+    const result = await sql.query(query, values);
 
     res.status(201).json({
       message: "Meme uploaded successfully",
@@ -120,7 +133,7 @@ app.post('/api/memes', upload.single("image"), async (req, res) => {
 
 app.get("/api/memes", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM memes ORDER BY created_at DESC");
+    const result = await sql.query("SELECT * FROM memes ORDER BY created_at DESC");
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -133,7 +146,7 @@ app.delete("/api/memes/:id", async (req, res) => {
     const memeId = req.params.id;
     
     // Find the meme's image before deleting it
-    const { rows } = await pool.query("SELECT image_url FROM memes WHERE id = $1", [memeId]);
+    const { rows } = await sql.query("SELECT image_url FROM memes WHERE id = $1", [memeId]);
     if (rows.length === 0) {
       return res.status(404).json({ error: "Meme not found" });
     }
@@ -143,7 +156,7 @@ app.delete("/api/memes/:id", async (req, res) => {
       fs.unlinkSync(imagePath); // Delete the file
     }
 
-    await pool.query("DELETE FROM memes WHERE id = $1", [memeId]);
+    await sql.query("DELETE FROM memes WHERE id = $1", [memeId]);
     res.status(200).json({ message: "Meme deleted successfully" });
   } catch (err) {
     console.error(err);
@@ -160,7 +173,7 @@ app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
 
     if (req.file) {
       // Delete the old image
-      const { rows } = await pool.query("SELECT image_url FROM memes WHERE id = $1", [memeId]);
+      const { rows } = await sql.query("SELECT image_url FROM memes WHERE id = $1", [memeId]);
       if (rows.length > 0) {
         const oldImagePath = path.join(__dirname, rows[0].image_url);
         if (fs.existsSync(oldImagePath)) {
@@ -183,7 +196,7 @@ app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
       WHERE id = $5 RETURNING *;
     `;
     const values = [title, description, categories, imageUrl, memeId];
-    const result = await pool.query(query, values);
+    const result = await sql.query(query, values);
 
     res.json({ message: "Meme updated successfully", meme: result.rows[0] });
   } catch (err) {
@@ -193,5 +206,5 @@ app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on :${PORT}`);
 });
