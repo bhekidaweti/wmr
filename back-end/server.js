@@ -59,7 +59,6 @@ setInterval(async () => {
 }, 60000); // Every 60 seconds
 
 
-//Merch Table
 // Route to fetch products from Printify API
 
 app.get('/api/products', async (req, res) => {
