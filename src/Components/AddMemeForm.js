@@ -1,39 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import "../App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const AddMemeForm = ({ onMemeAdded }) => {
+const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [categories, setCategories] = useState('');
-  const [image, setImage] = useState(null); // State to store the selected file
+  const [image, setImage] = useState(null);
+  const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (memeToEdit) {
+      setTitle(memeToEdit.title);
+      setDescription(memeToEdit.description);
+      setCategories(memeToEdit.categories);
+      setEditing(true);
+    }
+  }, [memeToEdit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Create FormData to handle file uploads
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
     formData.append('categories', categories);
-    formData.append('image', image); // Attach the file
+    if (image) formData.append('image', image);
 
     try {
-      const response = await fetch('http://localhost:5000/api/memes', {
-        method: 'POST',
-        body: formData, // No need to set headers for FormData
+      const url = editing ? `http://localhost:5000/api/memes/${memeToEdit.id}` : 'http://localhost:5000/api/memes';
+      const method = editing ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload meme');
+        throw new Error(editing ? 'Failed to update meme' : 'Failed to upload meme');
       }
 
       const newMeme = await response.json();
-      onMemeAdded(newMeme); // Update the meme list
+      editing ? onMemeUpdated(newMeme) : onMemeAdded(newMeme);
+
       setTitle('');
       setDescription('');
       setCategories('');
       setImage(null);
+      setEditing(false);
     } catch (error) {
-      console.error('Error uploading meme:', error);
+      console.error('Error submitting meme:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!memeToEdit) return;
+    try {
+      const response = await fetch(`http://localhost:5000/api/memes/${memeToEdit.id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Failed to delete meme');
+      onMemeDeleted(memeToEdit.id);
+      setTitle('');
+      setDescription('');
+      setCategories('');
+      setImage(null);
+      setEditing(false);
+    } catch (error) {
+      console.error('Error deleting meme:', error);
     }
   };
 
@@ -65,12 +96,16 @@ const AddMemeForm = ({ onMemeAdded }) => {
         <input
           type="file"
           className="form-control"
-          onChange={(e) => setImage(e.target.files[0])} // Update state with the selected file
-          required
+          onChange={(e) => setImage(e.target.files[0])}
         />
         <button className="btn btn-primary" type="submit">
-          Add Meme
+          {editing ? 'Update Meme' : 'Add Meme'}
         </button>
+        {editing && (
+          <button className="btn btn-danger ms-2" type="button" onClick={handleDelete}>
+            Delete Meme
+          </button>
+        )}
       </div>
     </form>
   );
