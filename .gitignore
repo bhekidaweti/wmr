@@ -24,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 #Firebase admin
-firebase-admin.json
+back-end/firebase-admin.json
 
 #Quotes
-qoute.txt
+back-end/quotes.txt
