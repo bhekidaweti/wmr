@@ -13,13 +13,14 @@ require("dotenv").config();
 //require('dotenv').config({ path: '../.env' });
 
 const app = express();
-app.use(cors());
+
+app.use(cors({ origin: 'https://wmr-jk4d.onrender.com' }));
 app.use(bodyParser.json());
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
   database: process.env.DATABASE_NAME,
-  username: process.env.DATABASE_USER,
+  user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   ssl: { rejectUnauthorized: false }
 })
@@ -191,7 +192,8 @@ app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
         description = COALESCE($2, description),
         categories = COALESCE($3, categories),
         image_url = COALESCE($4, image_url)
-      WHERE id = $5 RETURNING *;
+      WHERE id = $5 
+      RETURNING *;
     `;
     const values = [title, description, categories, imageUrl, memeId];
     const result = await pool.query(query, values);

@@ -10,14 +10,16 @@ const Shop = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setProducts(data);
-          setLoading(false);
         } else {
           console.error("Unexpected response from API:", data);
         }
       })
-      .catch((err) => console.error("Fetch error:", err));
-      setLoading(false);
+      .catch((err) => {
+        console.error("Fetch error:", err);
+      })
+      .finally(() => setLoading(false)); // Moved here
   }, []);
+  
   
   if (loading) return <div>Loading products...</div>;
 

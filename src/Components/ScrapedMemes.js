@@ -27,15 +27,15 @@ const ScrapedMemes = () => {
           </div>
         ) : (
           <div className="meme-grid">
-            {memes.map((meme) => (
-              <img
-                key={meme.id}
-                src={meme.image_url}
-                alt="Scraped Meme"
-                className="meme-thumbnail"
-                onClick={() => setSelectedMeme(meme.image_url)}
-              />
-            ))}
+              {memes.map((meme, index) => (
+                <img
+                  key={meme.id || index} // Fallback to index if id is missing
+                  src={meme.image_url}
+                  alt="Scraped Meme"
+                  className="meme-thumbnail"
+                  onClick={() => setSelectedMeme(meme.image_url)}
+                />
+              ))}
           </div>
         )}
 
