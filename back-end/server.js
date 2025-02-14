@@ -5,8 +5,7 @@ const bodyParser = require('body-parser');
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const scrapeMemes = require("./scraper")
-const PORT = 5000;
+const scrapeMemes = require("./scraper");
 
 //require("dotenv").config();
 //Local server
@@ -205,6 +204,8 @@ app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
     res.status(500).json({ error: "Failed to update meme" });
   }
 });
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on :${PORT}`);
