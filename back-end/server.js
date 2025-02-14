@@ -8,14 +8,15 @@ const fs = require("fs");
 const scrapeMemes = require("./scraper")
 const PORT = 5000;
 
-require("dotenv").config();
+//require("dotenv").config();
 //Local server
-//require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
 
-app.use(cors({ origin: 'https://wmr-jk4d.onrender.com' }));
+app.use(cors(/*{ origin: 'https://wmr-jk4d.onrender.com' }*/));
 app.use(bodyParser.json());
+
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,

@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://wmr-jk4d.onrender.com/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProducts(data);
+    axios.get(`${process.env.REACT_APP_API_URL}/api/products`)
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setProducts(res.data);
         } else {
-          console.error("Unexpected response from API:", data);
+          console.error("Unexpected response from API:", res.data);
         }
       })
-      .catch((err) => {
-        console.error("Fetch error:", err);
-      })
-      .finally(() => setLoading(false)); // Moved here
+      .catch((err) => console.error("Fetch error:", err))
+      .finally(() => setLoading(false)); // Ensure loading is set to false after fetching
   }, []);
-  
-  
+
   if (loading) return <div>Loading products...</div>;
 
   return (

@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
 import ScrapedMemes from "./ScrapedMemes";
 import Shop from "./Shop";
-
+import axios from 'axios';
 
 const Home = () => {
   const [memes, setMemes] = useState([]);
@@ -13,9 +13,9 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetch("https://wmr-jk4d.onrender.com/api/memes")
-      .then((res) => res.json())
-      .then((data) => setMemes(data));
+    axios.get(`${process.env.REACT_APP_API_URL}/api/memes`)
+      .then((res) => setMemes(res.data))
+      .catch((err) => console.error("Error fetching memes:", err));
   }, []);
 
   const filteredMemes = memes.filter((meme) =>
