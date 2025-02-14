@@ -5,8 +5,10 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
+  
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/products`)
+    axios.get(`${API_BASE_URL}/api/products`)
       .then((res) => {
         if (Array.isArray(res.data)) {
           setProducts(res.data);

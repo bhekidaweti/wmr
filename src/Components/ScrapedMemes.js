@@ -5,8 +5,10 @@ const ScrapedMemes = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
+
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/scraped-memes`)
+    axios.get(`${API_BASE_URL}/api/scraped-memes`)
       .then((res) => setMemes(res.data))
       .catch((err) => console.error("Error fetching memes:", err));
   }, []);
