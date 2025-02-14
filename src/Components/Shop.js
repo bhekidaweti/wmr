@@ -5,10 +5,10 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
+  //const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
   
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/products`)
+    axios.get("https://wmr-jk4d.onrender.com/api/products")
       .then((res) => {
         if (Array.isArray(res.data)) {
           setProducts(res.data);
@@ -18,7 +18,7 @@ const Shop = () => {
       })
       .catch((err) => console.error("Fetch error:", err))
       .finally(() => setLoading(false)); // Ensure loading is set to false after fetching
-  }, [API_BASE_URL]);
+  }, []);
 
   if (loading) return <div>Loading products...</div>;
 

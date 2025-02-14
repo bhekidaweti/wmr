@@ -12,13 +12,13 @@ const Home = () => {
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
+  //const API_BASE_URL = process.env.REACT_APP_API_URL || "https://wmr-jk4d.onrender.com";
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/memes`)
+    axios.get("https://wmr-jk4d.onrender.com/api/memes")
       .then((res) => setMemes(res.data))
       .catch((err) => console.error("Error fetching memes:", err));
-  }, [API_BASE_URL]);
+  }, []);
 
   const filteredMemes = memes.filter((meme) =>
     meme.title.toLowerCase().includes(searchQuery.toLowerCase())
