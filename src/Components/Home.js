@@ -18,7 +18,7 @@ const Home = () => {
     axios.get(`${API_BASE_URL}/api/memes`)
       .then((res) => setMemes(res.data))
       .catch((err) => console.error("Error fetching memes:", err));
-  }, []);
+  }, [API_BASE_URL]);
 
   const filteredMemes = memes.filter((meme) =>
     meme.title.toLowerCase().includes(searchQuery.toLowerCase())

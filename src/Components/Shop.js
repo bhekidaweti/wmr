@@ -18,7 +18,7 @@ const Shop = () => {
       })
       .catch((err) => console.error("Fetch error:", err))
       .finally(() => setLoading(false)); // Ensure loading is set to false after fetching
-  }, []);
+  }, [API_BASE_URL]);
 
   if (loading) return <div>Loading products...</div>;
 

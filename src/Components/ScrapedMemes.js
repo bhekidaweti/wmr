@@ -11,7 +11,7 @@ const ScrapedMemes = () => {
     axios.get(`${API_BASE_URL}/api/scraped-memes`)
       .then((res) => setMemes(res.data))
       .catch((err) => console.error("Error fetching memes:", err));
-  }, []);
+  }, [API_BASE_URL]);
 
   return (
     <div>
