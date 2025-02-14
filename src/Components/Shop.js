@@ -5,7 +5,7 @@ const Shop = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://wmr-jk4d.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -23,7 +23,7 @@ const Shop = () => {
 
   return (
     <div className="shop-container">
-      <h2>Shop DonTheMeme Merch</h2>
+      <h2>DonTheMemes Merch</h2>
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">

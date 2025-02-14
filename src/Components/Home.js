@@ -6,13 +6,14 @@ import Footer from "./Footer";
 import ScrapedMemes from "./ScrapedMemes";
 import Shop from "./Shop";
 
+
 const Home = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/memes")
+    fetch("https://wmr-jk4d.onrender.com/api/memes")
       .then((res) => res.json())
       .then((data) => setMemes(data));
   }, []);
@@ -52,7 +53,7 @@ const Home = () => {
               <div className="meme-details">
                 <h2>{selectedMeme.title}</h2>
                 <img
-                  src={`http://localhost:5000${selectedMeme.image_url}`}
+                  src={`${selectedMeme.image_url}`}
                   alt={selectedMeme.title}
                   className="meme-details-image"
                 />
@@ -76,7 +77,7 @@ const Home = () => {
                     onClick={() => setSelectedMeme(meme)}
                   >
                     <img
-                      src={`http://localhost:5000${meme.image_url}`}
+                      src={`https://wmr-jk4d.onrender.com${meme.image_url}`}
                       alt={meme.title}
                       className="meme-image"
                     />

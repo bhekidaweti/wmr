@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
+
 const ScrapedMemes = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/scraped-memes")
+    fetch("https://wmr-jk4d.onrender.com/api/scraped-memes")
       .then((res) => res.json())
       .then((data) => setMemes(data))
       .catch((err) => console.error("Error fetching memes:", err));
