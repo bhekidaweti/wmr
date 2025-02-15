@@ -26,7 +26,7 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
     formData.append('categories', categories);
     if (image) formData.append('image', image);
 
-    const APIurl = process.env.API_URL;
+    const APIurl = process.env.REACT_APP_API_URL;
     
     try {
       

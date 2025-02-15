@@ -12,7 +12,7 @@ const Home = () => {
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const APIurl = process.env.API_URL;
+  const APIurl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios.get(`${APIurl}/api/memes`)

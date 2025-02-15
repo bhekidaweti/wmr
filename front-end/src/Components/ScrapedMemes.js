@@ -5,7 +5,7 @@ const ScrapedMemes = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
 
-  const APIurl = process.env.API_URL;
+  const APIurl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     axios.get(`${APIurl}/api/scraped-memes`)
