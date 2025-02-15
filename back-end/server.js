@@ -7,13 +7,11 @@ const path = require("path");
 const fs = require("fs");
 const scrapeMemes = require("./scraper");
 
-//require("dotenv").config();
-//Local server
 require('dotenv').config({ path: '../.env' });
 
 const app = express();
 
-app.use(cors(/*{ origin: 'https://wmr-jk4d.onrender.com' }*/));
+app.use(cors());
 app.use(bodyParser.json());
 
 
