@@ -6,7 +6,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const APIurl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const APIurl = process.env.REACT_APP_API_URL //|| "http://localhost:5000";
   
   useEffect(() => {
     axios.get(`${APIurl}/api/products`)
