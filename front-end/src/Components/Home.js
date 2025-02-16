@@ -12,7 +12,7 @@ const Home = () => {
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const APIurl = process.env.REACT_APP_API_URL //|| "http://localhost:5000";
+  const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
 
   useEffect(() => {
     axios.get(`${APIurl}/api/memes`)

@@ -26,7 +26,7 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
     formData.append('categories', categories);
     if (image) formData.append('image', image);
 
-    const APIurl = process.env.REACT_APP_API_URL //|| "http://localhost:5000";
+    const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
     
     try {
       
@@ -58,7 +58,7 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
   const handleDelete = async () => {
     if (!memeToEdit) return;
     try {
-      const APIurl = process.env.REACT_APP_API_URL //|| "http://localhost:5000";
+      const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
       const response = await fetch(`${APIurl}/api/memes/${memeToEdit.id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Failed to delete meme');
       onMemeDeleted(memeToEdit.id);
