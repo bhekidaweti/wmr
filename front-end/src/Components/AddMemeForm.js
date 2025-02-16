@@ -58,6 +58,7 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
   const handleDelete = async () => {
     if (!memeToEdit) return;
     try {
+      const APIurl = process.env.REACT_APP_API_URL;
       const response = await fetch(`${APIurl}/api/memes/${memeToEdit.id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Failed to delete meme');
       onMemeDeleted(memeToEdit.id);
