@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import shoplogo from "../wiki-logo.png";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -10,8 +11,8 @@ const Shop = () => {
   useEffect(() => {
     axios.get(`${APIurl}/api/products`)
       .then((res) => {
-        if (Array.isArray(res.data)) {
-          setProducts(res.data);
+        if (Array.isArray(res.data.data)) {
+          setProducts(res.data.data);
         } else {
           console.error("Unexpected response from API:", res.data);
         }
@@ -24,7 +25,7 @@ const Shop = () => {
 
   return (
     <div className="shop-container">
-      <h2>DonTheMemes Merch</h2>
+      <h2>{shoplogo} DonTheMemes Merch</h2>
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
