@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import shoplogo from "../wiki-logo.png";
+
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -25,7 +25,7 @@ const Shop = () => {
 
   return (
     <div className="shop-container">
-      <h2>{shoplogo} DonTheMemes Merch</h2>
+      <h2>DonTheMemes Merch</h2>
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
