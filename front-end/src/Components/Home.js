@@ -12,7 +12,7 @@ const Home = () => {
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const APIurl = process.env.REACT_APP_API_URL;
+  const APIurl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     axios.get(`${APIurl}/api/memes`)
@@ -55,7 +55,7 @@ const Home = () => {
               <div className="meme-details">
                 <h2>{selectedMeme.title}</h2>
                 <img
-                  src={`${selectedMeme.image_url}`}
+                  src={selectedMeme.image_url.startsWith('http') ? selectedMeme.image_url : `${APIurl}${selectedMeme.image_url}`}
                   alt={selectedMeme.title}
                   className="meme-details-image"
                 />
@@ -73,6 +73,7 @@ const Home = () => {
             ) : (
               <div className="meme-list">
                 {filteredMemes.map((meme) => (
+                  
                   <div
                     key={meme.id}
                     className="meme-card"
@@ -93,7 +94,6 @@ const Home = () => {
           </main>
         </div>
         <div className="col">
-          <h5>Merch</h5>
           <Shop />
         </div>
       </div>

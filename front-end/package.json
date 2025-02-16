@@ -1,27 +1,26 @@
 {
-  "name": "my-app",
+  "name": "front-end",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
-    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "firebase": "^11.3.0",
     "firebase-admin": "^13.1.0",
     "multer": "^1.4.5-lts.1",
-    "node-cron": "^3.0.3",
     "pg": "^8.13.1",
     "pg-pool": "^3.7.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
+    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -47,8 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
