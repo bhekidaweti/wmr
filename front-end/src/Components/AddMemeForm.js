@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { onAuthStateChanged } from 'firebase/auth';
 
 const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) => {
   const [title, setTitle] = useState('');
@@ -8,6 +9,14 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
   const [categories, setCategories] = useState('');
   const [image, setImage] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubcribe();
+  }, []);
 
   useEffect(() => {
     if (memeToEdit) {
@@ -20,6 +29,11 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user){
+      alert("You must be logged in to add/update memes!")
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -29,13 +43,16 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
     const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
     
     try {
-      
+      const token = await user.getIdToken();
       const url = editing ? `${APIurl}/api/memes/${memeToEdit.id}` : `${APIurl}/api/memes`;
       const method = editing ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
         method,
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -56,11 +73,20 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
   };
 
   const handleDelete = async () => {
-    if (!memeToEdit) return;
+    if (!user || !memeToEdit) return;
+    
     try {
+      const token = await user.getIdToken();
       const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
-      const response = await fetch(`${APIurl}/api/memes/${memeToEdit.id}`, { method: 'DELETE' });
+      const response = await fetch(`${APIurl}/api/memes/${memeToEdit.id}`, { method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+       });
+      
+
       if (!response.ok) throw new Error('Failed to delete meme');
+      
       onMemeDeleted(memeToEdit.id);
       setTitle('');
       setDescription('');
@@ -71,6 +97,9 @@ const AddMemeForm = ({ onMemeAdded, memeToEdit, onMemeUpdated, onMemeDeleted }) 
       console.error('Error deleting meme:', error);
     }
   };
+  if (!user){
+    return <p>Please log in to add or edit memes!</p>
+  }
 
   return (
     <form onSubmit={handleSubmit}>

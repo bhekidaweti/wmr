@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const scrapeMemes = require("./scraper");
+const admin = require('firebase-admin');
 
 require('dotenv').config({ path: '../.env' });
 
@@ -14,6 +15,21 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+admin.initializeApp({
+  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
+});
+
+const verifyToken = async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = decodedToken;
+    next();
+  } catch (error){
+    res.status(403).json({ error: "Invalid token"});
+  }
+};
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
@@ -23,16 +39,6 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 })
 
-//Local server
-/*
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-});
-*/
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -97,7 +103,7 @@ app.get('/api/products', async (req, res) => {
 
 
 //Routes for uploaded memes
-app.post('/api/memes', upload.single("image"), async (req, res) => {
+app.post('/api/memes', upload.single("image"), verifyToken, async (req, res) => {
   try {
     const { title, description, categories } = req.body;
     const file = req.file;
@@ -128,7 +134,7 @@ app.post('/api/memes', upload.single("image"), async (req, res) => {
 });
 
 
-app.get("/api/memes", async (req, res) => {
+app.get("/api/memes", verifyToken, async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM memes ORDER BY created_at DESC");
     res.json(result.rows);
@@ -162,7 +168,7 @@ app.delete("/api/memes/:id", async (req, res) => {
 });
 
 // 🆕 EDIT (UPDATE) Meme by ID
-app.put('/api/memes/:id', upload.single("image"), async (req, res) => {
+app.put('/api/memes/:id', upload.single("image"), verifyToken, async (req, res) => {
   try {
     const memeId = req.params.id;
     const { title, description, categories } = req.body;
