@@ -134,7 +134,7 @@ app.post('/api/memes', upload.single("image"), verifyToken, async (req, res) => 
 });
 
 
-app.get("/api/memes", verifyToken, async (req, res) => {
+app.get("/api/memes", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM memes ORDER BY created_at DESC");
     res.json(result.rows);
@@ -144,7 +144,7 @@ app.get("/api/memes", verifyToken, async (req, res) => {
   }
 });
  
-app.delete("/api/memes/:id", async (req, res) => {
+app.delete("/api/memes/:id", verifyToken, async (req, res) => {
   try {
     const memeId = req.params.id;
     
