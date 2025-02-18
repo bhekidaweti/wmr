@@ -7,19 +7,18 @@ import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Admin= () => {
+  console.log('Admin component loaded');
   const [memes, setMemes] = useState([]);
   const [editingMeme, setEditingMeme] = useState(null);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(setUser);
-    });
-    fetchMemes();
-    return () => unsubscribe();
-  }, []);
-
-
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);  // Correctly set the user state
+  });
+  fetchMemes();
+  return () => unsubscribe();
+}, []);
 
   const fetchMemes = async () => {
     try {
