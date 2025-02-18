@@ -58,11 +58,6 @@ const upload = multer({
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-//Handling non-API routes in production
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 
 //Scrape meme Table
 app.get("/api/scraped-memes", async (req, res) => {
@@ -213,6 +208,12 @@ app.put('/api/memes/:id', upload.single("image"), verifyToken, async (req, res) 
     console.error(err);
     res.status(500).json({ error: "Failed to update meme" });
   }
+});
+
+
+//Handling non-API routes in production
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
