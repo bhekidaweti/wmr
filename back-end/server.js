@@ -11,14 +11,42 @@ const admin = require('firebase-admin');
 require('dotenv').config({ path: '../.env' });
 
 const app = express();
-app.use(express.static(path.join(__dirname, '../front-end/build')));
+//app.use(express.static(path.join(__dirname, '../front-end/build')));
 
 app.use(cors());
 app.use(bodyParser.json());
 
-admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
-});
+
+// Retrieve the minified credentials from the environment variable
+
+// Check if the environment variable exists
+if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+  console.error('Error: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
+  process.exit(1); // Exit the process if the environment variable is missing
+}
+
+// Attempt to parse the JSON string
+let serviceAccount;
+try {
+  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+} catch (error) {
+  console.error('Error: Failed to parse the FIREBASE_SERVICE_ACCOUNT JSON string.');
+  console.error(error); // Log the specific error
+  process.exit(1); // Exit the process if the JSON is invalid
+}
+
+// Initialize Firebase Admin
+try {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+  console.log("Firebase Admin Initialized Successfully!");
+} catch (error) {
+  console.error('Error: Failed to initialize Firebase Admin.');
+  console.error(error); // Log the specific error
+  process.exit(1); // Exit the process if initialization fails
+}
+
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -213,9 +241,11 @@ app.put('/api/memes/:id', upload.single("image"), verifyToken, async (req, res) 
 
 
 //Handling non-API routes in production
+/*
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../front-end/build', 'index.html'));
 });
+*/
 
 const PORT = process.env.PORT || 5000;
 
