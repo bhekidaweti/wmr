@@ -11,6 +11,7 @@ const admin = require('firebase-admin');
 require('dotenv').config({ path: '../.env' });
 
 const app = express();
+app.use(express.static(path.join(__dirname, '../front-end/build')));
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -213,7 +214,7 @@ app.put('/api/memes/:id', upload.single("image"), verifyToken, async (req, res) 
 
 //Handling non-API routes in production
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../front-end/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
