@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from './firebase'; // Ensure correct Firebase import
+import { auth } from './firebase'; 
 
 const AddMemeForm = ({ onMemeAdded, onMemeUpdated, onMemeDeleted }) => {
     const [title, setTitle] = useState('');
