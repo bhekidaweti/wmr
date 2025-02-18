@@ -58,6 +58,12 @@ const upload = multer({
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+//Handling non-API routes in production
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
 //Scrape meme Table
 app.get("/api/scraped-memes", async (req, res) => {
   try {
