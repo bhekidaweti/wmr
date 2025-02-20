@@ -20,11 +20,12 @@ app.use(bodyParser.json());
 // Retrieve the minified credentials from the environment variable
 
 // Check if the environment variable exists
+/*
 if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
   console.error('Error: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
   process.exit(1); // Exit the process if the environment variable is missing
 }
-
+*/
 // Attempt to parse the JSON string
 let serviceAccount;
 try {
@@ -109,7 +110,7 @@ setInterval(async () => {
 
 app.get('/api/products', async (req, res) => {
   try {
-    const shopId = process.env.PRINTIFY_SHOP_ID; // Ensure this exists in .env
+    const shopId = process.env.PRINTIFY_SHOP_ID; 
     const response = await fetch(`https://api.printify.com/v1/shops/${shopId}/products.json`, {
       method: 'GET',
       headers: {
