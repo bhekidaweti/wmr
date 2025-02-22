@@ -14,6 +14,7 @@ const Admin = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Current user:", currentUser);
       setUser(currentUser);  // Correctly set the user state
       if (currentUser) {
         fetchMemes(); // Fetch memes only if the user is logged in

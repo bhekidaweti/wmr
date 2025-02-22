@@ -8,7 +8,7 @@ const fs = require("fs");
 const scrapeMemes = require("./scraper");
 const admin = require('firebase-admin');
 
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../front-end/.env' });
 
 const app = express();
 //app.use(express.static(path.join(__dirname, '../front-end/build')));
@@ -16,16 +16,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-
-// Retrieve the minified credentials from the environment variable
-
-// Check if the environment variable exists
-/*
-if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-  console.error('Error: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
-  process.exit(1); // Exit the process if the environment variable is missing
-}
-*/
 // Attempt to parse the JSON string
 let serviceAccount;
 try {
@@ -118,7 +108,7 @@ app.get('/api/products', async (req, res) => {
         'Content-Type': 'application/json',
       },
     });
-
+console.log(shopId);
     if (!response.ok) {
       console.error(`❌ Printify API error: ${response.statusText}`);
       return res.status(response.status).json({ error: `Printify API error: ${response.statusText}` });
