@@ -5,17 +5,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
 import ScrapedMemes from "./ScrapedMemes";
 import Shop from "./Shop";
-import axios from 'axios';
+import MemeList from "./MemeList"; 
+import axios from "axios";
 
 const Home = () => {
   const [memes, setMemes] = useState([]);
-  const [selectedMeme, setSelectedMeme] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
 
   useEffect(() => {
-    axios.get(`${APIurl}/api/memes`)
+    axios
+      .get(`${APIurl}/api/memes`)
       .then((res) => setMemes(res.data))
       .catch((err) => console.error("Error fetching memes:", err));
   }, [APIurl]);
@@ -43,59 +44,26 @@ const Home = () => {
           </li>
         </ul>
       </header>
-      <div className="row align-items-start">
-        <div className="col">
-          <h5>Latest memes...</h5>
-          <ScrapedMemes />
-        </div>
-    
-        <div className="col">
-          <main>
-            {selectedMeme ? (
-              <div className="meme-details">
-                <h2>{selectedMeme.title}</h2>
-                <img
-                  src={selectedMeme.image_url.startsWith('http') ? selectedMeme.image_url : `${APIurl}${selectedMeme.image_url}`}
-                  alt={selectedMeme.title}
-                  className="meme-details-image"
-                />
-                <p>{selectedMeme.description}</p>
-                <p>
-                  <strong>Categories:</strong> {selectedMeme.categories}
-                </p>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => setSelectedMeme(null)}
-                >
-                  Close
-                </button>
+      
+      <div className="container mt-4">
+            <div className="row d-flex justify-content-between">
+              {/* Scraped Memes Section */}
+              <div className="col-md-4">
+                <h5>Latest Memes...</h5>
+                <ScrapedMemes />
               </div>
-            ) : (
-              <div className="meme-list">
-                {filteredMemes.map((meme) => (
-                  
-                  <div
-                    key={meme.id}
-                    className="meme-card"
-                    onClick={() => setSelectedMeme(meme)}
-                  >
-                    <img
-                      src={`${APIurl}${meme.image_url}`}
-                      alt={meme.title}
-                      className="meme-image"
-                    />
-                    <p style={{ color: "whitesmoke" }}>Click the meme to see details..</p>
-                    <h3 className="meme-title">{meme.title}</h3>
-                    <hr style={{ color: "orange" }}></hr>
-                  </div>
-                ))}
+
+              {/* MemeList Section */}
+              <div className="col-md-4">
+                <MemeList memes={filteredMemes} APIurl={APIurl} />
               </div>
-            )}
-          </main>
-        </div>
-        <div className="col">
-          <Shop />
-        </div>
+
+              {/* Shop Section */}
+              <div className="col-md-4">
+              <h2>Don-These-Memes</h2>
+                <Shop />
+              </div>
+            </div>
       </div>
       <Footer />
     </div>

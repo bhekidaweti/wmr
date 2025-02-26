@@ -1,9 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-console.log("API Key from ENV:", process.env.REACT_APP_FIREBASE_API_KEY);
-console.log("Auth Domain from ENV:", process.env.REACT_APP_FIREBASE_AUTH_DOMAIN);
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY ,

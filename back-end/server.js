@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const scrapeMemes = require("./scraper");
 const admin = require('firebase-admin');
+const axios = require('axios');
 
 
 const app = express();
@@ -102,33 +103,18 @@ setInterval(async () => {
   await scrapeMemes();
 }, 60000); // Every 60 seconds
 
-
-// Route to fetch products from Printify API
-
+// Printify API Route
 app.get('/api/products', async (req, res) => {
   try {
-    const shopId = process.env.PRINTIFY_SHOP_ID; 
-    const response = await fetch(`https://api.printify.com/v1/shops/${shopId}/products.json`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${process.env.PRINTIFY_API_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
+    const response = await axios.get(`https://api.printify.com/v1/shops/${process.env.PRINTIFY_SHOP_ID}/products.json`, {
+      headers: { Authorization: `Bearer ${process.env.PRINTIFY_API_KEY}` }
     });
-console.log(shopId);
-    if (!response.ok) {
-      console.error(`❌ Printify API error: ${response.statusText}`);
-      return res.status(response.status).json({ error: `Printify API error: ${response.statusText}` });
-    }
-
-    const data = await response.json();
-    res.json(data);
+    res.json(response.data);
   } catch (error) {
-    console.error('❌ Error fetching from Printify:', error);
-    res.status(500).json({ error: 'Server Error' });
+    console.error("Error fetching Printify products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
-
 
 //Routes for uploaded memes
 app.post('/api/memes', upload.single("image"), verifyToken, async (req, res) => {

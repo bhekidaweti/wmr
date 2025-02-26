@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import '../App.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedImage, setExpandedImage] = useState(null); // Track expanded image
 
-  const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
-  
+  const APIurl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     axios.get(`${APIurl}/api/products`)
       .then((res) => {
@@ -18,36 +19,36 @@ const Shop = () => {
         }
       })
       .catch((err) => console.error("Fetch error:", err))
-      .finally(() => setLoading(false)); // Ensure loading is set to false after fetching
+      .finally(() => setLoading(false));
   }, [APIurl]);
 
   if (loading) return <div>Loading products...</div>;
 
-  return (
-    <div className="shop-container">
-      <h2>DonTheMemes Merch</h2>
+  return (           
       <div className="product-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img
-              src={product.images[0]?.url || 'default-placeholder.jpg'}
-              alt={product.title}
-              className="product-image"
-            />
-            <h3>{product.title}</h3>
-            <p>{product.price}</p>
-            <a
-              href={`https://printify.com/products/${product.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="buy-button"
-            >
-              Buy Now
-            </a>
-          </div>
-        ))}
+            {products.map((product) => {
+              const productImage = product.images?.[0]?.src || 'default-placeholder.jpg';
+              return (
+                <di>
+                <div key={product.id} className="product-card">
+                  <img
+                    src={productImage}
+                    alt={product.title}
+                    className={`product-image ${expandedImage === product.id ? "expanded" : ""}`}
+                    onClick={() => setExpandedImage(expandedImage === product.id ? null : product.id)}
+                  />
+                  <h3>{product.title}</h3>
+                  <p>${product.price}</p>
+                  <button className='btn btn-warning'> 
+                    <a href={`https://donthememe.printify.me/product/${product.id}`} target="_blank" rel="noopener noreferrer">
+                      Don This Meme
+                    </a>
+                  </button>
+                </div>
+                </di>
+              );
+            })}
       </div>
-    </div>
   );
 };
 
