@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import '../App.css';
 
 const ScrapedMemes = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const memesPerPage = 10;
-  const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
+  const memesPerPage = 20;
+  const APIurl = process.env.REACT_APP_API_URL
 
   useEffect(() => {
     axios.get(`${APIurl}/api/scraped-memes`)

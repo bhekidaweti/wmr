@@ -129,23 +129,23 @@ li {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  max-height: 500px; /* Adjust height as needed */
-  overflow-y: auto; /* Allows scrolling if content exceeds */
-  padding: 10px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .meme-thumbnail {
-  width: 100px;
+  width: 300px; 
   height: auto;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* Ensure Shop component stays contained */
-.shop-container {
-  max-width: 100%;
-  text-align: center;
+.meme-thumbnail:hover {
+  transform: scale(1.1); 
+  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.6);
 }
+
 
 /* Keep Home memes within their div */
 .meme-list {

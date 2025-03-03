@@ -12,7 +12,7 @@ const Home = () => {
   const [memes, setMemes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const APIurl = process.env.REACT_APP_API_URL || "https://w-backend-0ij7.onrender.com";
+  const APIurl = process.env.REACT_APP_API_URL
 
   useEffect(() => {
     axios

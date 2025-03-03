@@ -35,8 +35,8 @@ try {
   console.log("Firebase Admin Initialized Successfully!");
 } catch (error) {
   console.error('Error: Failed to initialize Firebase Admin.');
-  console.error(error); // Log the specific error
-  process.exit(1); // Exit the process if initialization fails
+  console.error(error); 
+  process.exit(1);
 }
 
 
@@ -106,15 +106,20 @@ setInterval(async () => {
 // Printify API Route
 app.get('/api/products', async (req, res) => {
   try {
-    const response = await axios.get(`https://api.printify.com/v1/shops/${process.env.PRINTIFY_SHOP_ID}/products.json`, {
-      headers: { Authorization: `Bearer ${process.env.PRINTIFY_API_KEY}` }
-    });
+    const response = await axios.get(
+      `https://api.printify.com/v1/shops/${process.env.PRINTIFY_SHOP_ID}/products.json`, 
+      {
+        headers: { Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}` }
+      }
+    );
+    
     res.json(response.data);
   } catch (error) {
-    console.error("Error fetching Printify products:", error);
+    console.error("Error fetching Printify products:", error?.response?.status, error?.response?.data);
     res.status(500).json({ error: "Failed to fetch products" });
   }
 });
+
 
 //Routes for uploaded memes
 app.post('/api/memes', upload.single("image"), verifyToken, async (req, res) => {

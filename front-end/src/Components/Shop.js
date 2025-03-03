@@ -8,8 +8,10 @@ const Shop = () => {
   const [expandedImage, setExpandedImage] = useState(null); // Track expanded image
 
   const APIurl = process.env.REACT_APP_API_URL;
+  
 
   useEffect(() => {
+    
     axios.get(`${APIurl}/api/products`)
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -29,7 +31,7 @@ const Shop = () => {
             {products.map((product) => {
               const productImage = product.images?.[0]?.src || 'default-placeholder.jpg';
               return (
-                <di>
+               
                 <div key={product.id} className="product-card">
                   <img
                     src={productImage}
@@ -45,7 +47,7 @@ const Shop = () => {
                     </a>
                   </button>
                 </div>
-                </di>
+                
               );
             })}
       </div>

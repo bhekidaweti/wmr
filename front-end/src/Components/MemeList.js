@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import '../App.css';
 
 const MemeList = ({ memes, APIurl }) => {
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const memesPerPage = 10;
+  const memesPerPage = 20;
 
   // Pagination logic
   const indexOfLastMeme = currentPage * memesPerPage;
