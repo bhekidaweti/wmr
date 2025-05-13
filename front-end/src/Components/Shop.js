@@ -27,7 +27,7 @@ const Shop = () => {
   if (loading) return <div>Loading products...</div>;
 
   return (           
-      <div className="product-grid">
+      <div className="product-container">
             {products.map((product) => {
               const productImage = product.images?.[0]?.src || 'default-placeholder.jpg';
               return (
@@ -46,8 +46,8 @@ const Shop = () => {
                       Don This Meme
                     </a>
                   </button>
-                </div>
-                
+                  <div></div>
+                </div>                
               );
             })}
       </div>

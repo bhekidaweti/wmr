@@ -49,7 +49,7 @@ const Home = () => {
             <div className="row d-flex justify-content-between">
               {/* Scraped Memes Section */}
               <div className="col-md-4">
-                <h5>Latest Memes...</h5>
+                <h5>Latest Memes </h5>
                 <ScrapedMemes />
               </div>
 

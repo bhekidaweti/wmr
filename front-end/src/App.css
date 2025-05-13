@@ -70,13 +70,21 @@ li {
 
 
 /* Meme Grid */
-.meme-grid, .product-grid {
+.meme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
   gap: 15px;
   padding: 10px;
 }
 
+.product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #333;
+}
 /* Meme Thumbnail */
 .meme-thumbnail {
   width: 100%;

@@ -6,13 +6,15 @@ const ScrapedMemes = () => {
   const [memes, setMemes] = useState([]);
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const memesPerPage = 20;
   const APIurl = process.env.REACT_APP_API_URL
 
   useEffect(() => {
     axios.get(`${APIurl}/api/scraped-memes`)
       .then((res) => setMemes(res.data))
-      .catch((err) => console.error("Error fetching memes:", err));
+      .catch((err) => console.error("Error fetching memes:", err))
+      .finally(() => setLoading(false));
   }, [APIurl]);
 
   // Pagination logic
@@ -28,6 +30,8 @@ const ScrapedMemes = () => {
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+
+  if (loading) return <div>Loading Latest Memes ...</div>;
 
   return (
     <div className="container mt-4">
