@@ -28,3 +28,6 @@ back-end/firebase-admin.json
 
 #Quotes
 back-end/quotes.txt
+#Test scripts
+test-reddit.js
+test-script.js
