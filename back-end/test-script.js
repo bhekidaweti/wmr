@@ -1,9 +1,13 @@
 const axios = require("axios");
-require("dotenv").config({ path: "../.env" });
 
 let cachedToken = null;
 let tokenExpiry = null;
 
+// Replace environment variables with constants
+const REDDIT_CLIENT_ID = "hXkvDUMoNaMqlpIlnhuJIg";
+const REDDIT_CLIENT_SECRET = "2rv4qlbNqG9wweavpjP9Djq-vTO3qA";
+const REDDIT_USERNAME = "Lost-Concentrate-661"; // add your Reddit username
+const REDDIT_PASSWORD = "Toivoj@toivo1"; // add your Reddit password
 
 // Function to get access token using password grant
 async function getAccessToken() {
@@ -12,15 +16,14 @@ async function getAccessToken() {
   }
 
   const auth = Buffer.from(
-    `${process.env.REDDIT_CLIENT_ID}:${process.env.REDDIT_CLIENT_SECRET}`
+    `${REDDIT_CLIENT_ID}:${REDDIT_CLIENT_SECRET}`
   ).toString("base64");
 
   const params = new URLSearchParams();
   params.append("grant_type", "password");
-  params.append("username", process.env.REDDIT_USERNAME);
-  params.append("password", process.env.REDDIT_PASSWORD);
+  params.append("username", REDDIT_USERNAME);
+  params.append("password", REDDIT_PASSWORD);
 
-  
   const response = await axios.post(
     "https://www.reddit.com/api/v1/access_token",
     params,
@@ -66,3 +69,4 @@ async function testScraper() {
 }
 
 testScraper();
+

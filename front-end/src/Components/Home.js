@@ -4,7 +4,7 @@ import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./Footer";
 import ScrapedMemes from "./ScrapedMemes";
-import Shop from "./Shop";
+//import Shop from "./Shop";
 import MemeList from "./MemeList"; 
 import axios from "axios";
 
@@ -21,6 +21,8 @@ const Home = () => {
       .catch((err) => console.error("Error fetching memes:", err));
   }, [APIurl]);
 
+//Filtered memes for me search functionality on the uploaded memes section
+ 
   const filteredMemes = memes.filter((meme) =>
     meme.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -56,13 +58,13 @@ const Home = () => {
               {/* MemeList Section */}
               <div className="col-md-4">
                 <MemeList memes={filteredMemes} APIurl={APIurl} />
-              </div>
+              </div> 
 
-              {/* Shop Section */}
+              {/* Shop Section 
               <div className="col-md-4">
               <h2>Don-These-Memes</h2>
                 <Shop />
-              </div>
+              </div> */}
             </div>
       </div>
       <Footer />
