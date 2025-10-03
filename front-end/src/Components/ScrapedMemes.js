@@ -10,32 +10,30 @@ const ScrapedMemes = () => {
   const memesPerPage = 20;
   const APIurl = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    const fetchMemes = async () => {
-      try {
-        const res = await axios.get(`${APIurl}/api/scraped-memes`);
-        console.log("Fetched memes:", res.data);
-        console.log(res.data);
+useEffect(() => {
+  const fetchMemes = async () => {
+    try {
+      const res = await axios.get(`${APIurl}/api/scraped-memes`);
+      console.log("Fetched memes:", res.data);
 
-        // Handle both array and object-wrapped responses
-        if (Array.isArray(res.data)) {
-          setMemes(res.data);
-        } else if (res.data && Array.isArray(res.data.memes)) {
-          setMemes(res.data.memes);
-        } else {
-          console.warn("Unexpected response format, setting empty memes array.");
-          setMemes([]);
-        }
-      } catch (err) {
-        console.error("Error fetching memes:", err);
+      // Since backend returns an array, just set it directly
+      if (Array.isArray(res.data)) {
+        setMemes(res.data);
+      } else {
+        console.warn("Expected an array but got unexpected format, setting empty memes array.");
         setMemes([]);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error("Error fetching memes:", err);
+      setMemes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchMemes();
-  }, [APIurl]);
+  fetchMemes();
+}, [APIurl]);
+
 
   // Pagination logic
   const indexOfLastMeme = currentPage * memesPerPage;
