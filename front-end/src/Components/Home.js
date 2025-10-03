@@ -15,18 +15,32 @@ const Home = () => {
   const APIurl = process.env.REACT_APP_API_URL
 
   useEffect(() => {
-    axios
-      .get(`${APIurl}/api/memes`)
-      .then((res) => setMemes(res.data))
-      .catch((err) => console.error("Error fetching memes:", err));
-  }, [APIurl]);
+  axios
+    .get(`${APIurl}/api/memes`)
+    .then((res) => {
+      // Check what the API actually returns
+      //console.log("API response:", res.data);
+
+      // If API returns an object like { memes: [...] }, grab the array
+      const memesArray = Array.isArray(res.data) ? res.data : res.data.memes || [];
+      setMemes(memesArray);
+    })
+    .catch((err) => console.error("Error fetching memes:", err));
+}, [APIurl]);
 
 //Filtered memes for me search functionality on the uploaded memes section
+const filteredMemes = Array.isArray(memes)
+  ? memes.filter((meme) =>
+      meme.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : [];
+
+/*
  
   const filteredMemes = memes.filter((meme) =>
     meme.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+*/
   return (
     <div className="App">
       <header className="App-header">
