@@ -8,7 +8,7 @@ const ScrapedMemes = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const memesPerPage = 20;
-  const APIurl = process.env.REACT_APP_API_URL;
+  const APIurl = "https://w-backend-0ij7.onrender.com";
 
 useEffect(() => {
   const fetchMemes = async () => {
