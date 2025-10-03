@@ -12,7 +12,7 @@ const Home = () => {
   const [memes, setMemes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const APIurl = process.env.REACT_APP_API_URL
+  const APIurl = "https://w-backend-0ij7.onrender.com";
 
   useEffect(() => {
   axios
@@ -35,12 +35,6 @@ const filteredMemes = Array.isArray(memes)
     )
   : [];
 
-/*
- 
-  const filteredMemes = memes.filter((meme) =>
-    meme.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-*/
   return (
     <div className="App">
       <header className="App-header">
@@ -62,25 +56,25 @@ const filteredMemes = Array.isArray(memes)
       </header>
       
       <div className="container mt-4">
-            <div className="row d-flex justify-content-between">
-              {/* Scraped Memes Section */}
-              <div className="col-md-4">
-                <h5>Latest Memes </h5>
-                <ScrapedMemes />
-              </div>
-
-              {/* MemeList Section */}
-              <div className="col-md-4">
-                <MemeList memes={filteredMemes} APIurl={APIurl} />
-              </div> 
-
-              {/* Shop Section 
-              <div className="col-md-4">
-              <h2>Don-These-Memes</h2>
-                <Shop />
-              </div> */}
-            </div>
+  <div className="row">
+    {/* Scraped Memes Section */}
+    <div className="col-md-6 mb-4">
+      <div className="p-3 border rounded bg-light">
+        <h5>Latest Memes</h5>
+        <ScrapedMemes />
       </div>
+    </div>
+
+    {/* MemeList Section */}
+    <div className="col-md-6 mb-4">
+      <div className="p-3 border rounded bg-light">
+        <h5>Meme List</h5>
+        <MemeList memes={filteredMemes} APIurl={APIurl} />
+      </div>
+      </div>
+    </div>
+  </div>
+
       <Footer />
     </div>
   );
